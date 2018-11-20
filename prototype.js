@@ -14,5 +14,5 @@ viewModel.addViews(View.getView('ExampleSetView', {
 }));
 
 Renderer.render(viewModel).then((jsxFragment) => {
-  console.dir('jsxFragment', jsxFragment);
+  console.log('jsxFragment', typeof jsxFragment, jsxFragment);
 });

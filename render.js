@@ -2,11 +2,6 @@ const fs = require('fs');
 const jsx = require('react-jsx');
 
 const Renderer = class Renderer {
-  static async getJsxTemplate_(view) {
-    return await fs.readFile(
-        `./jsx/${view.getContainer().getContainerName()}.jsx`, 'utf-8');
-  }
-
   // TODO: Make a generator version of this for the joke.
   static async render(view, clientId, fragment='') {
     // If truthy, this is a boring View proto. We want the underlying view model
@@ -19,8 +14,10 @@ const Renderer = class Renderer {
     // other views.
     // TODO: Enum or instanceof. No magic strings.
     if (view.getContainer().getContainerName() !== 'Model') {
-      const template = await Renderer.getJsxTemplate_(view);
+      const template = fs.readFileSync(
+          `./jsx/${view.getContainer().getContainerName()}.jsx`, 'utf-8');
       const renderFn = jsx.server(template);
+      // console.log('DERP', view.toObject());
       fragment += renderFn(view.toObject(), {html: true});
     }
 

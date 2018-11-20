@@ -1,4 +1,4 @@
-<ExampleView>
-  <div class="countdown">{countdown}</div>
-  <div class="foobar">{foobar}</div>
-</ExampleView>
+<div className="ExampleView">
+  <div className="countdown">{countdown}</div>
+  <div className="foobar">{foobar}</div>
+</div>
