@@ -3,11 +3,11 @@ const jsx = require('react-jsx');
 
 const Renderer = class Renderer {
   // TODO: Make a generator version of this for the joke.
-  static async render(view, clientId, fragment='') {
+  static async render(view, clientId, fragments=[]) {
     // If truthy, this is a boring View proto. We want the underlying view model
     // proto such as ExampleView or ExampleSetView.
     if (typeof view.hasView === 'function' && view.hasView()) {
-      return await Renderer.render(view.getView(), clientId, fragment);
+      return await Renderer.render(view.getView(), clientId, fragments);
     }
 
     // The top-level view model does not render itself, but is a container for
@@ -17,18 +17,17 @@ const Renderer = class Renderer {
       const template = fs.readFileSync(
           `./jsx/${view.getContainer().getContainerName()}.jsx`, 'utf-8');
       const renderFn = jsx.server(template);
-      // console.log('DERP', view.toObject());
-      fragment += renderFn(view.toObject(), {html: true});
+      fragments.push(renderFn(view.toObject(), {html: true}));
     }
 
     const childViews = view.getViewsList();
     if (childViews && childViews.length) {
       await Promise.all(childViews.map((view) => {
-        return Renderer.render(view, clientId, fragment);
+        return Renderer.render(view, clientId, fragments);
       }));
     }
 
-    return fragment;
+    return fragments.join('\n\n');
   }
 };
 
