@@ -8,12 +8,6 @@ exports.Model = class Model {
     // container_name, which should always match the proto.
     // e.g.: Container.setContainer(boring.Model(), clientId);
     // or: Container.getContainer('Model', clientId);
-    return new model_pb.Model({
-      container: new container_pb.Container({
-        containerId: '1234',
-        containerName: 'Model',
-        clientId: clientId,
-      }),
-    });
+    return new model_pb.Model([['1234', 'Model', clientId]]);
   }
 };

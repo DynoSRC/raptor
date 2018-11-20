@@ -8,7 +8,7 @@ const Renderer = class Renderer {
   }
 
   static getTemplateName_(view) {
-    return (`${view.container.containerName}.jsx`);
+    return (`${view.getContainer().getContainerName()}.jsx`);
   }
 
   // TODO: Make a generator version of this for the joke.
@@ -19,9 +19,9 @@ const Renderer = class Renderer {
       return await Renderer.render(view.view, clientId, fragment);
     }
 
-    const renderFn = jsx.server(
-        Renderer.getJsxTemplate_(view),
-        {filename: Renderer.getTemplateName_(view)});
+    const template = await Renderer.getJsxTemplate_(view);
+    const renderFn =
+        jsx.server(template, {filename: Renderer.getTemplateName_(view)});
 
     fragment += renderFn(view, {html: true});
 
