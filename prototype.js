@@ -5,7 +5,7 @@ const View = require('./view').View;
 // getModel creates a raptor.Model proto and hydrates its container info.
 const viewModel = Model.getModel();
 // Hydrate some view model protos with dummy data.
-viewModel.views.add(View.getView('ExampleSetView', {
+viewModel.addViews(View.getView('ExampleSetView', {
   derp: 1234,
   herp: 'foobar',
   leftExample: View.getView('ExampleView', {countdown: 500}),
@@ -13,6 +13,6 @@ viewModel.views.add(View.getView('ExampleSetView', {
   rightExample: View.getView('ExampleView', {countdown: 2500}),
 }));
 
-new Renderer.render(viewModel).then((jsxFragment) => {
+Renderer.render(viewModel).then((jsxFragment) => {
   console.dir('jsxFragment', jsxFragment);
 });

@@ -20,7 +20,7 @@
   "dependencies": {
     "google-protobuf": "^3.6.1",
     "lodash": "^4.17.11",
-    "protoceratops": "DynoSRC/protoceratops#master",
+    "protoceratops": "github:DynoSRC/protoceratops#master",
     "react-jsx": "^1.0.0"
   }
 }

@@ -1,7 +1,7 @@
 const fs = require('fs');
 const jsx = require('react-jsx');
 
-module.exports.Renderer = class Renderer {
+const Renderer = class Renderer {
   static async getJsxTemplate_(view) {
     const name = Renderer.getTemplateName_(view);
     return await fs.readFile(`./${name}`, 'utf-8');
@@ -32,3 +32,5 @@ module.exports.Renderer = class Renderer {
     return fragment;
   }
 };
+
+exports.Renderer = Renderer;
