@@ -1,7 +1,26 @@
+const _ = require('lodash');
+const React = require('react');
 const fs = require('fs');
 const jsx = require('react-jsx');
 
-// TOOD: How to register custom elements with jsx parser?
+function getTemplate(name) {
+  return jsx.server(fs.readFileSync(`./jsx/${name}.jsx`, 'utf-8'));
+}
+
+function createReactClass(name) {
+  return React.createClass({
+    render() {
+      return getTemplate_(name)(this);
+    }
+  });
+}
+
+// TODO: Make this dynamic.
+const templates = {
+  ExampleSetView: createReactClass('ExampleSetView'),
+  ExampleView: createReactClass('ExampleView'),
+};
+
 const Renderer = class Renderer {
   // TODO: Make a generator version of this for the joke.
   static async render(view, clientId, fragments=[]) {
@@ -11,14 +30,16 @@ const Renderer = class Renderer {
       return await Renderer.render(view.getView(), clientId, fragments);
     }
 
+    const name = view.getContainer().getContainerName();
     // The top-level view model does not render itself, but is a container for
     // other views.
     // TODO: Enum or instanceof. No magic strings.
-    if (view.getContainer().getContainerName() !== 'Model') {
-      const template = fs.readFileSync(
-          `./jsx/${view.getContainer().getContainerName()}.jsx`, 'utf-8');
-      const renderFn = jsx.server(template);
-      fragments.push(renderFn(view.toObject(), {html: true}));
+    if (name !== 'Model') {
+      const viewModel = view.toObject();
+      // Add component templates to view model obj so that child components can
+      // be rendered.
+      _.extend(viewModel, templates);
+      fragments.push(templates[name](viewModel, {html: true}));
     }
 
     const childViews = view.getViewsList();
