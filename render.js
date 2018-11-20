@@ -3,31 +3,33 @@ const jsx = require('react-jsx');
 
 const Renderer = class Renderer {
   static async getJsxTemplate_(view) {
-    const name = Renderer.getTemplateName_(view);
-    return await fs.readFile(`./${name}`, 'utf-8');
-  }
-
-  static getTemplateName_(view) {
-    return (`${view.getContainer().getContainerName()}.jsx`);
+    return await fs.readFile(
+        `./jsx/${view.getContainer().getContainerName()}.jsx`, 'utf-8');
   }
 
   // TODO: Make a generator version of this for the joke.
   static async render(view, clientId, fragment='') {
     // If truthy, this is a boring View proto. We want the underlying view model
     // proto such as ExampleView or ExampleSetView.
-    if (view.view) {
-      return await Renderer.render(view.view, clientId, fragment);
+    if (typeof view.hasView === 'function' && view.hasView()) {
+      return await Renderer.render(view.getView(), clientId, fragment);
     }
 
-    const template = await Renderer.getJsxTemplate_(view);
-    const renderFn =
-        jsx.server(template, {filename: Renderer.getTemplateName_(view)});
+    // The top-level view model does not render itself, but is a container for
+    // other views.
+    // TODO: Enum or instanceof. No magic strings.
+    if (view.getContainer().getContainerName() !== 'Model') {
+      const template = await Renderer.getJsxTemplate_(view);
+      const renderFn = jsx.server(template);
+      fragment += renderFn(view.toObject(), {html: true});
+    }
 
-    fragment += renderFn(view, {html: true});
-
-    await Promise.all(view.views.map((view) => {
-      return Renderer.render(view, clientId, fragment);
-    }));
+    const childViews = view.getViewsList();
+    if (childViews && childViews.length) {
+      await Promise.all(childViews.map((view) => {
+        return Renderer.render(view, clientId, fragment);
+      }));
+    }
 
     return fragment;
   }
