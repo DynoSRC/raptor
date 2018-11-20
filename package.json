@@ -1,0 +1,26 @@
+{
+  "name": "raptor",
+  "version": "0.0.1",
+  "description": "The view rendering engine for the Boring framework.",
+  "main": "prototype.ts",
+  "scripts": {
+    "start": "tsc prototype.ts",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DynoSRC/raptor.git"
+  },
+  "author": "Josh Everett",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/DynoSRC/raptor/issues"
+  },
+  "homepage": "https://github.com/DynoSRC/raptor#readme",
+  "dependencies": {
+    "google-protobuf": "^3.6.1",
+    "lodash": "^4.17.11",
+    "protoceratops": "DynoSRC/protoceratops#master",
+    "react-jsx": "^1.0.0"
+  }
+}

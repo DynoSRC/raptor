@@ -1,24 +1,33 @@
-// This is currently psuedocode.
+const fs = require('fs');
+const jsx = require('react-jsx');
 
-import boring from 'protoceratops';
-import jsx from 'magic';
-import templates from 'magic';
+module.exports.Renderer = class Renderer {
+  static async getJsxTemplate_(view) {
+    const name = Renderer.getTemplateName_(view);
+    return await fs.readFile(`./${name}`, 'utf-8');
+  }
 
-exports.Renderer = class Renderer {
-  static render(
-      view: Object, clientId: string, fragment: jsx.JsxFragment):
-      jsx.JsxFragment {
+  static getTemplateName_(view) {
+    return (`${view.container.containerName}.jsx`);
+  }
+
+  // TODO: Make a generator version of this for the joke.
+  static async render(view, clientId, fragment='') {
     // If truthy, this is a boring View proto. We want the underlying view model
     // proto such as ExampleView or ExampleSetView.
     if (view.view) {
-      return Renderer.render(view.view, clientId, fragment);
+      return await Renderer.render(view.view, clientId, fragment);
     }
 
-    fragment.append(templates.render(view));
+    const renderFn = jsx.server(
+        Renderer.getJsxTemplate_(view),
+        {filename: Renderer.getTemplateName_(view)});
 
-    view.views.forEach((view) => {
-      Renderer.render(view, clientId, fragment);
-    });
+    fragment += renderFn(view, {html: true});
+
+    await Promise.all(view.views.map((view) => {
+      return Renderer.render(view, clientId, fragment);
+    }));
 
     return fragment;
   }
