@@ -9,7 +9,7 @@
   { middleExample ?
     <div className="ExampleView middle"
                countdown={middleExample.countdown}
-               foobar={middle.foobar}></div>
+               foobar={middleExample.foobar}></div>
   : <div></div> }
   { rightExample ?
     <div className="ExampleView right"

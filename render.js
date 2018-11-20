@@ -1,6 +1,7 @@
 const fs = require('fs');
 const jsx = require('react-jsx');
 
+// TOOD: How to register custom elements with jsx parser?
 const Renderer = class Renderer {
   // TODO: Make a generator version of this for the joke.
   static async render(view, clientId, fragments=[]) {
