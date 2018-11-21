@@ -1,21 +1,20 @@
 const _ = require('lodash');
-//const React = require('react');
-const fs = require('fs');
+// const React = require('react'); // magic, not actual dep because reasons
 const templates = require('./templates');
 
-function createReactClass(name) {
-  // return React.createClass({
-  //   render() {
-  //     return templates.getTemplate(name)(this);
-  //   }
-  // });
-}
+// function createReactClass(name) {
+//   return React.createClass({
+//     render() {
+//       return templates.getTemplate(name)(this);
+//     }
+//   });
+// }
 
 // TODO: Make this dynamic.
-const reactClasses = {
-  ExampleSetView: createReactClass('ExampleSetView'),
-  ExampleView: createReactClass('ExampleView'),
-};
+// const reactClasses = {
+//   ExampleSetView: createReactClass('ExampleSetView'),
+//   ExampleView: createReactClass('ExampleView'),
+// };
 
 const Renderer = class Renderer {
   // TODO: Make a generator version of this for the joke.
@@ -34,8 +33,8 @@ const Renderer = class Renderer {
       const viewModel = view.toObject();
       // Add component templates to view model obj so that child components can
       // be rendered.
-      _.extend(viewModel, reactClasses);
-      fragments.push(reactClasses[name](viewModel, {html: true}));
+      // _.extend(viewModel, reactClasses);
+      fragments.push(templates.getTemplate(name)(viewModel, {html: true}));
     }
 
     const childViews = view.getViewsList();

@@ -1,3 +1,4 @@
+const fs = require('fs');
 const jsx = require('react-jsx');
 
 exports.getTemplate = function(name) {
