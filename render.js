@@ -1,22 +1,18 @@
 const _ = require('lodash');
-const React = require('react');
+//const React = require('react');
 const fs = require('fs');
-const jsx = require('react-jsx');
-
-function getTemplate(name) {
-  return jsx.server(fs.readFileSync(`./jsx/${name}.jsx`, 'utf-8'));
-}
+const templates = require('./templates');
 
 function createReactClass(name) {
-  return React.createClass({
-    render() {
-      return getTemplate_(name)(this);
-    }
-  });
+  // return React.createClass({
+  //   render() {
+  //     return templates.getTemplate(name)(this);
+  //   }
+  // });
 }
 
 // TODO: Make this dynamic.
-const templates = {
+const reactClasses = {
   ExampleSetView: createReactClass('ExampleSetView'),
   ExampleView: createReactClass('ExampleView'),
 };
@@ -38,8 +34,8 @@ const Renderer = class Renderer {
       const viewModel = view.toObject();
       // Add component templates to view model obj so that child components can
       // be rendered.
-      _.extend(viewModel, templates);
-      fragments.push(templates[name](viewModel, {html: true}));
+      _.extend(viewModel, reactClasses);
+      fragments.push(reactClasses[name](viewModel, {html: true}));
     }
 
     const childViews = view.getViewsList();
