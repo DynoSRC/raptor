@@ -4,6 +4,13 @@ The view rendering engine for the Boring framework.
 ## Usage:
 TODO: Figure out why namespaces aren't working.
 
+### Install and configure protoc (WSL)
+
+1. `sudo apt install protobuf-compiler`
+2. `sudo apt install libprotobuf-dev`
+
+### Build + Run Prototype (WSL)
+
 1. `npm install`
 2. `mkdir protos`
 3. Generate JS protos:
@@ -16,4 +23,4 @@ protoc \
   node_modules/protoceratops/protos/boring/raptor/model.proto \
   node_modules/protoceratops/protos/boring/raptor/view.proto
 ```
-4. `node prototype.js`
+4. `node prototype/index.js`

@@ -1,0 +1,17 @@
+div.ExampleSetView
+  div.derp #{derp}
+  div.herp #{herp}
+  // TODO: Child includes could be better handled via mixins (or a better
+  // templating engine).
+  if leftExample
+    - var countdown= leftExample.countdown
+    - var foobar = leftExample.foobar
+    include ExampleView.pug
+  if middleExample
+    - var countdown= middleExample.countdown
+    - var foobar = middleExample.foobar
+    include ExampleView.pug
+  if rightExample
+    - var countdown= rightExample.countdown
+    - var foobar = rightExample.foobar
+    include ExampleView.pug
