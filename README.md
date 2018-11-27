@@ -1,10 +1,10 @@
 # raptor
-The view rendering engine for the Boring framework.
+The "view model" engine for the Boring framework. Bring your own renderer.
 
-## Usage:
+## Usage
 TODO: Figure out why namespaces aren't working.
 
-### Install and configure protoc (WSL)
+### Install and Configure `protoc` (WSL)
 
 1. `sudo apt install protobuf-compiler`
 2. `sudo apt install libprotobuf-dev`
