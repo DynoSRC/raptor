@@ -1,6 +1,8 @@
 const injecture = require('injecture');
 const pug = require('pug');
 
+// TODO: Raptor should handle the concept of dumb child views, not your
+// renderer. Give people option of JSON vs. proto consumption.
 const Renderer = class Renderer {
   // Your raptor.renderer interface must implement a render() method. It accepts
   // a View proto. Dumb child views are recursively rendered.
