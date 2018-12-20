@@ -1,4 +1,12 @@
+import React from 'react';
 import Raptor from './raptor';
+import renderer from 'react-test-renderer';
+
+class TestApp extends React.Component {
+  render() {
+    return <React.Fragment>Sup I'm a JSX fragment.</React.Fragment>
+  }
+}
 
 describe('raptor.views', () => {
   const Foo = {herp: 'derp'};
@@ -41,5 +49,12 @@ describe('raptor.layouts', () => {
       raptor.addLayouts({Foo, Bar});
       expect(raptor.layouts).toEqual({Foo, Bar});
     });
+  });
+});
+
+describe('react-test-renderer', () => {
+  it('Renders TestApp correctly.', () => {
+    const component = renderer.create(<TestApp/>);
+    expect(component.toJSON()).toMatchSnapshot();
   });
 });
