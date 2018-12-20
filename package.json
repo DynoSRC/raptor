@@ -4,7 +4,7 @@
   "description": "The view rendering engine for the Boring framework.",
   "main": "raptor.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -18,5 +18,8 @@
   "homepage": "https://github.com/DynoSRC/raptor#readme",
   "dependencies": {
     "lodash": "^4.17.11"
+  },
+  "devDependencies": {
+    "jest": "^23.6.0"
   }
 }

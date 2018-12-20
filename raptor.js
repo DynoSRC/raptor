@@ -1,3 +1,4 @@
+// TODO: Would be great to remove this/all deps if possible. But what about JSX?
 const _ = require('lodash');
 
 class Raptor {
@@ -15,7 +16,7 @@ class Raptor {
   }
 
   addLayout(k, v) {
-    this.layout[k] = v;
+    this.layouts[k] = v;
   }
 
   addLayouts(layouts) {
@@ -30,4 +31,4 @@ class Raptor {
   }
 }
 
-exports = new Raptor();
+module.exports = Raptor;
