@@ -1,26 +1,16 @@
 # raptor
-The "view model" engine for the Boring framework. Bring your own renderer.
+A JSX layout engine.
+
+Raptor is intended for use with the boring framework, but can be used by itself.
 
 ## Usage
-TODO: Figure out why namespaces aren't working.
 
-### Install and Configure `protoc` (WSL)
+TL;DR: Configure raptor with knowledge of your views and view model hierchy.
+Then give it a JSON blob of view models and it will stitch together the
+appropriate JSX for you.
 
-1. `sudo apt install protobuf-compiler`
-2. `sudo apt install libprotobuf-dev`
+### 1. Tell raptor about your views.
 
-### Build + Run Prototype (WSL)
+### 2. Tell raptor about your view model hieracy for each page (i.e. route).
 
-1. `npm install`
-2. `mkdir protos`
-3. Generate JS protos:
-```
-protoc \
-  --proto_path=node_modules/protoceratops/protos/ \
-  --js_out=import_style=commonjs,binary:protos/ \
-  node_modules/protoceratops/protos/boring/lib/container.proto \
-  node_modules/protoceratops/protos/boring/raptor/views/example.proto \
-  node_modules/protoceratops/protos/boring/raptor/model.proto \
-  node_modules/protoceratops/protos/boring/raptor/view.proto
-```
-4. `node prototype/index.js`
+### 3. Tell raptor to render a given page with a given (hydrated) view model.
