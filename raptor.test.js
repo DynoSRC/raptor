@@ -1,4 +1,4 @@
-const Raptor = require('./raptor');
+import Raptor from './raptor';
 
 describe('raptor.views', () => {
   const Foo = {herp: 'derp'};

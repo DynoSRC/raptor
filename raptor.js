@@ -1,7 +1,7 @@
 // TODO: Would be great to remove this/all deps if possible. But what about JSX?
-const _ = require('lodash');
+import _ from 'lodash';
 
-class Raptor {
+export default class Raptor {
   constructor() {
     this.views = {};
     this.layouts = {};
@@ -30,5 +30,3 @@ class Raptor {
     // ...
   }
 }
-
-module.exports = Raptor;
