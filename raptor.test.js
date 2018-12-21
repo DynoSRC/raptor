@@ -12,8 +12,6 @@ class UserItem extends React.Component {
   render() {
     const {data} = this.props;
     return (
-      // TODO: Model prop to view prop mappings. Use "data.label" instead
-      // of "data.name" to test that.
       <div className="user-item">
         <div className="avatar">{data.name[0]}</div>
         <div className="primary">{data.name}</div>

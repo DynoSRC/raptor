@@ -41,8 +41,6 @@ export default class Raptor {
    * @return {!Array<!Object|undefined>} An array of JSX fragments.
    */
   doRender_(layoutObj, parentPath, viewModel) {
-    // TODO: Need to ignore viewModel keys that don't exist in layoutObj. Add a
-    // test for this. Not even sure what current behavior would be.
     return map(viewModel, (value, key) => {
       // If we've reached a leaf/scalar value, just return. No need to render.
       // TODO: May want to revist the leaf/scalar thing later. Can envision use
@@ -50,6 +48,8 @@ export default class Raptor {
       if (!isArray(value) && !isObject(value)) return;
       const layoutPath = this.getLayoutPath_(parentPath, key);
       const layoutSlice = get(layoutObj, layoutPath);
+      // If there's no layoutSlice for this key, just return. No need to render.
+      if (!layoutSlice) return;
       const View = this.views[layoutSlice.$view];
       const data = this.getViewData_(value, layoutSlice);
       return (

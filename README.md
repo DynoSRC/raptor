@@ -4,8 +4,8 @@ A JSX layout engine.
 ## Usage
 
 TL;DR: Configure raptor with knowledge of your views and view model hierchy
-("layout"). Then give it a JSON blob of view models and it will stitch together
-the appropriate JSX for you.
+("layout"). Then give it a blob of view models and it will stitch together the
+appropriate JSX for you.
 
 ### 1. Tell raptor about your views.
 
@@ -16,7 +16,7 @@ raptor.addViews({UserList, UserItem});
 ### 2. Tell raptor about your layout for each page/route/container.
 
 These are only pages/routes/containers by convention. Strictly speaking, they
-are simply named layouts. All leaf values in your layout should be scalar.
+are simply named layouts.
 
 // TODO: Mapping model props to view props.
 
@@ -64,3 +64,4 @@ This list is incomplete.
 
 * Mapping model props to view props.
 * Nested layouts.
+* prop reducers
