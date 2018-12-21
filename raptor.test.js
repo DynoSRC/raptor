@@ -32,12 +32,6 @@ class UserItem extends React.Component {
   }
 }
 
-class TestApp extends React.Component {
-  render() {
-    return this.props.raptor.render();
-  }
-}
-
 describe('raptor.views', () => {
   describe('addView()', () => {
     it('Adds a single view to raptor.views.', () => {
