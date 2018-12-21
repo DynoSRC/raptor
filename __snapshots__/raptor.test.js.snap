@@ -128,6 +128,36 @@ exports[`raptor.render() Renders correct JSX from a simple layout and view model
 </div>
 `;
 
+exports[`raptor.render() Renders deeply nested views OK. 1`] = `
+<div
+  className="hello-world"
+  foo="Hero Carousel"
+>
+  <div
+    className="hello-world"
+  >
+    <div
+      className="hello-world"
+      foo="Carousel Item 1"
+    >
+      <div
+        className="hello-world"
+        foo="Message 1"
+      />
+    </div>
+    <div
+      className="hello-world"
+      foo="Carousel Item 2"
+    >
+      <div
+        className="hello-world"
+        foo="Message 2"
+      />
+    </div>
+  </div>
+</div>
+`;
+
 exports[`raptor.render() Supports reducer functions for $props. 1`] = `
 <div
   className="user-list"

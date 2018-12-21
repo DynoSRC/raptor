@@ -77,7 +77,6 @@ export default class Raptor {
     // return the key to create the first key in the layoutPath. E.g. if
     // viewModel is {foo: {}, bar: []} and key is 'foo', this will return 'foo'.
     if (!parentPath) return key;
-    // TODO: Test deeper view model nesting. This is an untested code path.
     if (isString(key)) return `${parentPath}.${key}`;
     if (isNumber(key)) return `${parentPath}.$children`;
     // TODO: Test for this.

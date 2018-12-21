@@ -60,6 +60,4 @@ This will output something like the following JSX:
 
 This list is incomplete.
 
-* Mapping model props to view props.
 * Nested layouts.
-* prop reducers

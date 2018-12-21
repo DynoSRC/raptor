@@ -144,29 +144,35 @@ describe('raptor.render()', () => {
     const rendered = renderer.create(fragment);
     expect(rendered.toJSON()).toMatchSnapshot();
   });
-});
 
-// describe('raptor.render()', () => {
-//   it('Renders deeply nested views OK.', () => {
-//     const raptor = new Raptor();
-//     raptor.addViews({HelloWorld});
-//     raptor.addLayout('Home', {
-//       heroCarousel: {
-//         $view: 'HelloWorld',
-//         $children: {
-//           $view: 'HelloWorld'
-//         },
-//       },
-//     });
-//     const fragment = raptor.render('Users', {
-//       contacts: [
-//         {id: '1', name: 'Foo Guy', phone: '(619) 555-7380'},
-//         {id: '2', name: 'Bar Guy', phone: '(858) 555-7380'},
-//         {id: '3', name: 'Herp Guy', phone: '(415) 555-7380'},
-//         {id: '4', name: 'Derp Guy', phone: '(650) 555-7380'},
-//       ],
-//     });
-//     const rendered = renderer.create(fragment);
-//     expect(rendered.toJSON()).toMatchSnapshot();
-//   });
-// });
+  it('Renders deeply nested views OK.', () => {
+    const raptor = new Raptor();
+    raptor.addViews({HelloWorld});
+    raptor.addLayout('Home', {
+      heroCarousel: {
+        $view: 'HelloWorld',
+        carouselItems: {
+          $view: 'HelloWorld',
+          $children: {
+            $view: 'HelloWorld',
+            message: {
+              $view: 'HelloWorld',
+              $props: {foo: 'text'},
+            },
+          },
+        },
+      },
+    });
+    const fragment = raptor.render('Home', {
+      heroCarousel: {
+        foo: 'Hero Carousel',
+        carouselItems: [
+          {foo: 'Carousel Item 1', message: {text: 'Message 1'}},
+          {foo: 'Carousel Item 2', message: {text: 'Message 2'}},
+        ],
+      },
+    });
+    const rendered = renderer.create(fragment);
+    expect(rendered.toJSON()).toMatchSnapshot();
+  });
+});
