@@ -20,6 +20,8 @@ raptor.addViews({FooView, BarView});
 These are only pages/routes/containers by convention. Strictly speaking, they
 are simply named layouts.
 
+// TODO: Mapping model props to view props.
+
 ```js
 raptor.addLayout('Home', {
   // View model key.
@@ -62,6 +64,7 @@ This will output something like the following JSX:
 
 This list is incomplete.
 
+* Mapping model props to view props.
 * Event/action dispatching
 * Nested layouts.
 * Deciding view impl at runtime (injecture).

@@ -2,30 +2,51 @@ import React from 'react';
 import Raptor from './raptor';
 import renderer from 'react-test-renderer';
 
+class UserList extends React.Component {
+  render() {
+    return (
+      <div className="user-list">{this.props.children}</div>
+    );
+  }
+}
+
+class UserItem extends React.Component {
+  render() {
+    const {data} = this.props;
+    return (
+      // TODO: Model prop to view prop mappings. Use "data.label" instead
+      // of "data.name" to test that.
+      // TODO: click/dispatches
+      <div className="user-item">
+        <div className="avatar">{data.name}</div>
+        <div className="primary">{data.name}</div>
+        <div className="secondary">{data.phone}</div>
+      </div>
+    );
+  }
+}
+
 class TestApp extends React.Component {
   render() {
-    return <React.Fragment>Sup I'm a JSX fragment.</React.Fragment>
+    return this.props.raptor.render();
   }
 }
 
 describe('raptor.views', () => {
-  const Foo = {herp: 'derp'};
-  const Bar = {derp: 'herp'};
-
-  describe('addView', () => {
+  describe('addView()', () => {
     it('Adds a single view to raptor.views.', () => {
       const raptor = new Raptor();
-      raptor.addView('Foo', Foo);
-      raptor.addView('Bar', Bar);
-      expect(raptor.views).toEqual({Foo, Bar});
+      raptor.addView('UserList', UserList);
+      raptor.addView('UserItem', UserItem);
+      expect(raptor.views).toEqual({UserList, UserItem});
     });
   });
 
-  describe('addViews', () => {
+  describe('addViews()', () => {
     it('Adds multiple views to raptor.views.', () => {
       const raptor = new Raptor();
-      raptor.addViews({Foo, Bar});
-      expect(raptor.views).toEqual({Foo, Bar});
+      raptor.addViews({UserList, UserItem});
+      expect(raptor.views).toEqual({UserList, UserItem});
     });
   });
 });
@@ -34,7 +55,7 @@ describe('raptor.layouts', () => {
   const Foo = {herp: 'derp'};
   const Bar = {derp: 'herp'};
 
-  describe('addLayout', () => {
+  describe('addLayout()', () => {
     it('Adds a single layout to raptor.layouts.', () => {
       const raptor = new Raptor();
       raptor.addLayout('Foo', Foo);
@@ -43,7 +64,7 @@ describe('raptor.layouts', () => {
     });
   });
 
-  describe('addLayouts', () => {
+  describe('addLayouts()', () => {
     it('Adds multiple layouts to raptor.layouts.', () => {
       const raptor = new Raptor();
       raptor.addLayouts({Foo, Bar});
@@ -52,9 +73,27 @@ describe('raptor.layouts', () => {
   });
 });
 
-describe('react-test-renderer', () => {
-  it('Renders TestApp correctly.', () => {
-    const component = renderer.create(<TestApp/>);
-    expect(component.toJSON()).toMatchSnapshot();
+describe('raptor.render()', () => {
+  it('Renders correct JSX from layout and view model.', () => {
+    const raptor = new Raptor();
+    raptor.addViews({UserList, UserItem});
+    raptor.addLayout('TestLayout', {
+      contacts: {
+        $view: 'UserList',
+        $children: {
+          $view: 'UserItem',
+        },
+      },
+    });
+    const fragment = raptor.render('TestLayout', {
+      contacts: [
+        {id: '1', name: 'Foo Guy', phone: '(619) 555-7380'},
+        {id: '2', name: 'Bar Guy', phone: '(858) 555-7380'},
+        {id: '3', name: 'Herp Guy', phone: '(415) 555-7380'},
+        {id: '4', name: 'Derp Guy', phone: '(650) 555-7380'},
+      ],
+    });
+    const rendered = renderer.create(fragment);
+    expect(rendered.toJSON()).toMatchSnapshot();
   });
 });

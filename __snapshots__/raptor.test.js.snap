@@ -1,3 +1,84 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`react-test-renderer Renders TestApp correctly. 1`] = `"Sup I'm a JSX fragment."`;
+exports[`raptor.render() Renders correct JSX from layout and view model. 1`] = `
+<div
+  className="user-list"
+>
+  <div
+    className="user-item"
+  >
+    <div
+      className="avatar"
+    >
+      Foo Guy
+    </div>
+    <div
+      className="primary"
+    >
+      Foo Guy
+    </div>
+    <div
+      className="secondary"
+    >
+      (619) 555-7380
+    </div>
+  </div>
+  <div
+    className="user-item"
+  >
+    <div
+      className="avatar"
+    >
+      Bar Guy
+    </div>
+    <div
+      className="primary"
+    >
+      Bar Guy
+    </div>
+    <div
+      className="secondary"
+    >
+      (858) 555-7380
+    </div>
+  </div>
+  <div
+    className="user-item"
+  >
+    <div
+      className="avatar"
+    >
+      Herp Guy
+    </div>
+    <div
+      className="primary"
+    >
+      Herp Guy
+    </div>
+    <div
+      className="secondary"
+    >
+      (415) 555-7380
+    </div>
+  </div>
+  <div
+    className="user-item"
+  >
+    <div
+      className="avatar"
+    >
+      Derp Guy
+    </div>
+    <div
+      className="primary"
+    >
+      Derp Guy
+    </div>
+    <div
+      className="secondary"
+    >
+      (650) 555-7380
+    </div>
+  </div>
+</div>
+`;
