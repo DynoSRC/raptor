@@ -94,8 +94,8 @@ export default class Raptor {
     return layoutSlice.$props ?
         reduce(layoutSlice.$props, (data, modelKey, viewPropKey) => {
           data[viewPropKey] = isFunction(modelKey) ?
-              modelKey(data) : // modelKey is a reducer function.
-              data[modelKey]; // modelKey is a string.
+              modelKey(viewModel) : // modelKey is a reducer function.
+              viewModel[modelKey]; // modelKey is a string.
           return data;
         }, viewModel) :
         viewModel ;
