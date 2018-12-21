@@ -2,6 +2,17 @@ import React from 'react';
 import Raptor from './raptor';
 import renderer from 'react-test-renderer';
 
+class HelloWorld extends React.Component {
+  render() {
+    const {data} = this.props;
+    return (
+      <div className="hello-world" foo={data.foo}>
+        {this.props.children}
+      </div>
+    );
+  }
+}
+
 class UserList extends React.Component {
   render() {
     return <div className="user-list">{this.props.children}</div>;
@@ -69,27 +80,93 @@ describe('raptor.layouts', () => {
 });
 
 describe('raptor.render()', () => {
-  it('Renders correct JSX from layout and view model.', () => {
+  it('Renders correct JSX from a simple layout and view model.', () => {
     const raptor = new Raptor();
     raptor.addViews({UserList, UserItem});
     raptor.addLayout('Users', {
-      contacts: {
+      users: {
+        $view: 'UserList',
+        $children: 'UserItem',
+      },
+    });
+    const fragment = raptor.render('Users', {
+      users: [
+        {id: '1', name: 'Foo Guy', secondary: '(619) 555-7380'},
+        {id: '2', name: 'Bar Guy', secondary: '(858) 555-7380'},
+        {id: '3', name: 'Herp Guy', secondary: '(415) 555-7380'},
+        {id: '4', name: 'Derp Guy', secondary: '(650) 555-7380'},
+      ],
+    });
+    const rendered = renderer.create(fragment);
+    expect(rendered.toJSON()).toMatchSnapshot();
+  });
+
+  it('Maps model keys to view prop keys according to $props.', () => {
+    const raptor = new Raptor();
+    raptor.addViews({UserList, UserItem});
+    raptor.addLayout('Users', {
+      users: {
         $view: 'UserList',
         $children: {
           $view: 'UserItem',
-          $props: {phone: 'secondary'},
+          $props: {secondary: 'phone'},
         },
       },
     });
     const fragment = raptor.render('Users', {
-      contacts: [
+      users: [
         {id: '1', name: 'Foo Guy', phone: '(619) 555-7380'},
         {id: '2', name: 'Bar Guy', phone: '(858) 555-7380'},
-        {id: '3', name: 'Herp Guy', phone: '(415) 555-7380'},
-        {id: '4', name: 'Derp Guy', phone: '(650) 555-7380'},
+      ],
+    });
+    const rendered = renderer.create(fragment);
+    expect(rendered.toJSON()).toMatchSnapshot();
+  });
+
+  it('Supports reducer functions for $props.', () => {
+    const raptor = new Raptor();
+    raptor.addViews({UserList, UserItem});
+    raptor.addLayout('Users', {
+      users: {
+        $view: 'UserList',
+        $children: {
+          $view: 'UserItem',
+          $props: {secondary: (data) => data.phones[0].number},
+        },
+      },
+    });
+    const fragment = raptor.render('Users', {
+      users: [
+        {id: '1', name: 'Foo Guy', phones: [{number: '(619) 555-7380'}]},
+        {id: '2', name: 'Bar Guy', phones: [{number: '(858) 555-7380'}]},
       ],
     });
     const rendered = renderer.create(fragment);
     expect(rendered.toJSON()).toMatchSnapshot();
   });
 });
+
+// describe('raptor.render()', () => {
+//   it('Renders deeply nested views OK.', () => {
+//     const raptor = new Raptor();
+//     raptor.addViews({HelloWorld});
+//     raptor.addLayout('Home', {
+//       heroCarousel: {
+//         $view: 'HelloWorld',
+//         $children: {
+//           $view: 'HelloWorld'
+//         },
+//       },
+//     });
+//     const fragment = raptor.render('Users', {
+//       contacts: [
+//         {id: '1', name: 'Foo Guy', phone: '(619) 555-7380'},
+//         {id: '2', name: 'Bar Guy', phone: '(858) 555-7380'},
+//         {id: '3', name: 'Herp Guy', phone: '(415) 555-7380'},
+//         {id: '4', name: 'Derp Guy', phone: '(650) 555-7380'},
+//       ],
+//     });
+//     const rendered = renderer.create(fragment);
+//     expect(rendered.toJSON()).toMatchSnapshot();
+//   });
+// });

@@ -1,5 +1,5 @@
 import React from 'react';
-import { get, isArray, isNumber, isObject, isString, map, reduce } from 'lodash';
+import { get, isArray, isFunction, isNumber, isObject, isString, map, reduce } from 'lodash';
 
 export default class Raptor {
   constructor() {
@@ -46,15 +46,19 @@ export default class Raptor {
       // TODO: May want to revist the leaf/scalar thing later. Can envision use
       // cases where you want to pass a string as the sole child to a component.
       if (!isArray(value) && !isObject(value)) return;
+      const childViewModel = value; // For clarity.
       const layoutPath = this.getLayoutPath_(parentPath, key);
       const layoutSlice = get(layoutObj, layoutPath);
       // If there's no layoutSlice for this key, just return. No need to render.
       if (!layoutSlice) return;
-      const View = this.views[layoutSlice.$view];
-      const data = this.getViewData_(value, layoutSlice);
+      // If layoutSlice.$view is falsy, layoutSlice is assumed to be a string.
+      // I.e. `foo: 'FooView'` is shorthand for `foo: {$view: 'FooView'}`.
+      const viewName = layoutSlice.$view || layoutSlice;
+      const View = this.views[viewName];
+      const data = this.getViewData_(childViewModel, layoutSlice);
       return (
         <View key={key} data={data} layoutPath={layoutPath}>
-          {this.doRender_(layoutObj, layoutPath, value)}
+          {this.doRender_(layoutObj, layoutPath, childViewModel)}
         </View>
       );
     });
@@ -87,9 +91,11 @@ export default class Raptor {
    * @return {!Array|!Object}
    */
   getViewData_(viewModel, layoutSlice) {
-    return layoutSlice.$props && isObject(viewModel) ?
-        reduce(layoutSlice.$props, (data, viewPropKey, modelKey) => {
-          data[viewPropKey] = data[modelKey];
+    return layoutSlice.$props ?
+        reduce(layoutSlice.$props, (data, modelKey, viewPropKey) => {
+          data[viewPropKey] = isFunction(modelKey) ?
+              modelKey(data) : // modelKey is a reducer function.
+              data[modelKey]; // modelKey is a string.
           return data;
         }, viewModel) :
         viewModel ;

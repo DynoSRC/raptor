@@ -18,8 +18,6 @@ raptor.addViews({UserList, UserItem});
 These are only pages/routes/containers by convention. Strictly speaking, they
 are simply named layouts.
 
-// TODO: Mapping model props to view props.
-
 ```js
 raptor.addLayout('Users', {
   contacts: {

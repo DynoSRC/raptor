@@ -1,6 +1,51 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`raptor.render() Renders correct JSX from layout and view model. 1`] = `
+exports[`raptor.render() Maps model keys to view prop keys according to $props. 1`] = `
+<div
+  className="user-list"
+>
+  <div
+    className="user-item"
+  >
+    <div
+      className="avatar"
+    >
+      F
+    </div>
+    <div
+      className="primary"
+    >
+      Foo Guy
+    </div>
+    <div
+      className="secondary"
+    >
+      (619) 555-7380
+    </div>
+  </div>
+  <div
+    className="user-item"
+  >
+    <div
+      className="avatar"
+    >
+      B
+    </div>
+    <div
+      className="primary"
+    >
+      Bar Guy
+    </div>
+    <div
+      className="secondary"
+    >
+      (858) 555-7380
+    </div>
+  </div>
+</div>
+`;
+
+exports[`raptor.render() Renders correct JSX from a simple layout and view model. 1`] = `
 <div
   className="user-list"
 >
@@ -78,6 +123,51 @@ exports[`raptor.render() Renders correct JSX from layout and view model. 1`] = `
       className="secondary"
     >
       (650) 555-7380
+    </div>
+  </div>
+</div>
+`;
+
+exports[`raptor.render() Supports reducer functions for $props. 1`] = `
+<div
+  className="user-list"
+>
+  <div
+    className="user-item"
+  >
+    <div
+      className="avatar"
+    >
+      F
+    </div>
+    <div
+      className="primary"
+    >
+      Foo Guy
+    </div>
+    <div
+      className="secondary"
+    >
+      (619) 555-7380
+    </div>
+  </div>
+  <div
+    className="user-item"
+  >
+    <div
+      className="avatar"
+    >
+      B
+    </div>
+    <div
+      className="primary"
+    >
+      Bar Guy
+    </div>
+    <div
+      className="secondary"
+    >
+      (858) 555-7380
     </div>
   </div>
 </div>
