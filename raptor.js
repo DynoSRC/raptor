@@ -1,5 +1,5 @@
 import React from 'react';
-import { get, isArray, isNumber, isObject, isString, map } from 'lodash';
+import { get, isArray, isNumber, isObject, isString, map, reduce } from 'lodash';
 
 export default class Raptor {
   constructor() {
@@ -33,11 +33,12 @@ export default class Raptor {
   /**
    * Recursively stitches together views for a given layout and view model.
    * This is the rendering method that actually "does work".
-   * @param {Object} layoutObj The layout we are rendering.
+   * @param {!Object} layoutObj The layout we are rendering.
    * @param {?string} parentPath The current path within the layout that we are
    *     rendering, in lodash get() syntax, e.g. 'foo.$children.baz'. A null
    *     value indicates that viewModel is the root view model node.
-   * @param {Object|Array} viewModel The (slice of) view model being rendered.
+   * @param {!Object|!Array} viewModel The (slice of) view model being rendered.
+   * @return {!Array<!Object|undefined>} An array of JSX fragments.
    */
   doRender_(layoutObj, parentPath, viewModel) {
     // TODO: Need to ignore viewModel keys that don't exist in layoutObj. Add a
@@ -50,8 +51,9 @@ export default class Raptor {
       const layoutPath = this.getLayoutPath_(parentPath, key);
       const layoutSlice = get(layoutObj, layoutPath);
       const View = this.views[layoutSlice.$view];
+      const data = this.getViewData_(value, layoutSlice);
       return (
-        <View key={key} data={value} layoutPath={layoutPath}>
+        <View key={key} data={data} layoutPath={layoutPath}>
           {this.doRender_(layoutObj, layoutPath, value)}
         </View>
       );
@@ -64,6 +66,7 @@ export default class Raptor {
    * 'foo.$children.baz.$children' (for array keys).
    * @param {?string} parentPath
    * @param {string|number} key
+   * @return {string}
    */
   getLayoutPath_(parentPath, key) {
     // If parentPath is null, viewModel (see doRender_) is the root node, so
@@ -75,5 +78,20 @@ export default class Raptor {
     if (isNumber(key)) return `${parentPath}.$children`;
     // TODO: Test for this.
     throw new Error('Unknown viewModel key type: ' + key);
+  }
+
+  /**
+   * Augments object values according to layoutSlice.$props mapping, if any.
+   * @param {!Array|!Object} viewModel
+   * @param {!Object} layoutSlice
+   * @return {!Array|!Object}
+   */
+  getViewData_(viewModel, layoutSlice) {
+    return layoutSlice.$props && isObject(viewModel) ?
+        reduce(layoutSlice.$props, (data, viewPropKey, modelKey) => {
+          data[viewPropKey] = data[modelKey];
+          return data;
+        }, viewModel) :
+        viewModel ;
   }
 }

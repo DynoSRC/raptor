@@ -10,7 +10,7 @@ exports[`raptor.render() Renders correct JSX from layout and view model. 1`] = `
     <div
       className="avatar"
     >
-      Foo Guy
+      F
     </div>
     <div
       className="primary"
@@ -29,7 +29,7 @@ exports[`raptor.render() Renders correct JSX from layout and view model. 1`] = `
     <div
       className="avatar"
     >
-      Bar Guy
+      B
     </div>
     <div
       className="primary"
@@ -48,7 +48,7 @@ exports[`raptor.render() Renders correct JSX from layout and view model. 1`] = `
     <div
       className="avatar"
     >
-      Herp Guy
+      H
     </div>
     <div
       className="primary"
@@ -67,7 +67,7 @@ exports[`raptor.render() Renders correct JSX from layout and view model. 1`] = `
     <div
       className="avatar"
     >
-      Derp Guy
+      D
     </div>
     <div
       className="primary"

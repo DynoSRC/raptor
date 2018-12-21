@@ -1,8 +1,6 @@
 # raptor
 A JSX layout engine.
 
-Raptor is intended for use with the boring framework, but can be used by itself.
-
 ## Usage
 
 TL;DR: Configure raptor with knowledge of your views and view model hierchy
@@ -12,24 +10,24 @@ the appropriate JSX for you.
 ### 1. Tell raptor about your views.
 
 ```js
-raptor.addViews({FooView, BarView});
+raptor.addViews({UserList, UserItem});
 ```
 
 ### 2. Tell raptor about your layout for each page/route/container.
 
 These are only pages/routes/containers by convention. Strictly speaking, they
-are simply named layouts.
+are simply named layouts. All leaf values in your layout should be scalar.
 
 // TODO: Mapping model props to view props.
 
 ```js
-raptor.addLayout('Home', {
-  // View model key.
+raptor.addLayout('Users', {
   contacts: {
-    // View to use for this view model key.
-    $view: 'RaptorList',
-    // This is a list key, so we need to also specify child views.
-    $children: 'RaptorUserItem',
+    $view: 'UserList',
+    $children: {
+      $view: 'UserItem',
+      $props: {phone: 'secondary'},
+    },
   },
 });
 ```
@@ -39,7 +37,7 @@ TODO: Allow layouts to be nested/composed via the `$layout` key.
 ### 3. Tell raptor to render a given page with a given (hydrated) view model.
 
 ```js
-raptor.render('Home', {
+raptor.render('Users', {
   contacts: [
     {id: '1', name: 'Foo Guy', phone: '(619) 555-7380', email: 'foo@guy.com'},
     {id: '2', name: 'Bar Guy', phone: '(858) 555-7380', email: 'bar@guy.com'},
@@ -52,12 +50,12 @@ raptor.render('Home', {
 This will output something like the following JSX:
 
 ```jsx
-<RaptorList>
-  <RaptorUserItem> ... </RaptorUserItem>
-  <RaptorUserItem> ... </RaptorUserItem>
-  <RaptorUserItem> ... </RaptorUserItem>
-  <RaptorUserItem> ... </RaptorUserItem>
-</RaptorList>
+<UserList>
+  <UserItem> ... </UserItem>
+  <UserItem> ... </UserItem>
+  <UserItem> ... </UserItem>
+  <UserItem> ... </UserItem>
+</UserList>
 ```
 
 ## TODO
@@ -65,6 +63,4 @@ This will output something like the following JSX:
 This list is incomplete.
 
 * Mapping model props to view props.
-* Event/action dispatching
 * Nested layouts.
-* Deciding view impl at runtime (injecture).

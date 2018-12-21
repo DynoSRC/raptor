@@ -4,9 +4,7 @@ import renderer from 'react-test-renderer';
 
 class UserList extends React.Component {
   render() {
-    return (
-      <div className="user-list">{this.props.children}</div>
-    );
+    return <div className="user-list">{this.props.children}</div>;
   }
 }
 
@@ -16,11 +14,10 @@ class UserItem extends React.Component {
     return (
       // TODO: Model prop to view prop mappings. Use "data.label" instead
       // of "data.name" to test that.
-      // TODO: click/dispatches
       <div className="user-item">
-        <div className="avatar">{data.name}</div>
+        <div className="avatar">{data.name[0]}</div>
         <div className="primary">{data.name}</div>
-        <div className="secondary">{data.phone}</div>
+        <div className="secondary">{data.secondary}</div>
       </div>
     );
   }
@@ -77,15 +74,16 @@ describe('raptor.render()', () => {
   it('Renders correct JSX from layout and view model.', () => {
     const raptor = new Raptor();
     raptor.addViews({UserList, UserItem});
-    raptor.addLayout('TestLayout', {
+    raptor.addLayout('Users', {
       contacts: {
         $view: 'UserList',
         $children: {
           $view: 'UserItem',
+          $props: {phone: 'secondary'},
         },
       },
     });
-    const fragment = raptor.render('TestLayout', {
+    const fragment = raptor.render('Users', {
       contacts: [
         {id: '1', name: 'Foo Guy', phone: '(619) 555-7380'},
         {id: '2', name: 'Bar Guy', phone: '(858) 555-7380'},
